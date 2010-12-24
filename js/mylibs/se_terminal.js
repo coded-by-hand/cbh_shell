@@ -1,6 +1,6 @@
 function se_terminal() {
 	
-	this.history = null; // <ol> to append to
+	this.history = $('#se_cli_history'); // <ol> to append to	
 	
 	this.cli = function(input){
 		var params = input.split(' ');
@@ -19,10 +19,22 @@ function se_terminal() {
 	
 	this.puts = function(str){
 		console.log(str);
+		$('<li>', {
+			text: str,
+			click: function(){
+				alert('paste to input!');
+				// $(this).input.val(str); 
+			}
+		}).appendTo(this.history);
 		return this;
 	};
 	
-	se_terminal.prototype.talk = function(str) {
+	se_terminal.prototype.talk = function(params) {
+		if ( ! params) {
+			return this.error('Missing parameters');
+			// return this.help('talk');
+		}
+		str = params.shift();
 		if ( ! str || typeof str != 'string') {
 			str = 'Nothing to say.';
 		}
