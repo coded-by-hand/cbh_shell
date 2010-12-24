@@ -2,7 +2,10 @@
 
 */
 $(document).ready(function() {
-	var term = new se_terminal();
+	var cli_input	= $('#se_cli_input'),
+		cli_history	= $('#se_cli_history');
+	
+	var term = new se_terminal(cli_input, cli_history);
 	
 	term.talk = function(params){
 		se_terminal.prototype.talk.call(this, params);
@@ -10,15 +13,6 @@ $(document).ready(function() {
 	};
 	
 	
-	var cli_input = $('#se_cli_input');
-	cli_input.keyup(function(e){
-		if (e.keyCode != '13') return;
-		e.preventDefault();
-	    
-		var cmd = $(this).val();
-		$(this).val('')
-		term.cli(cmd);
-	});
 	
 });
 

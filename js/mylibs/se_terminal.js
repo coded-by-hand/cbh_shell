@@ -1,6 +1,22 @@
-function se_terminal() {
+function se_terminal(input, history) {
 	
-	this.history = $('#se_cli_history'); // <ol> to append to	
+	this.input = input;
+	this.history = history; // <ol> to append to	
+	
+	this.init = function(){
+		this.input.keyup(
+			[this],
+			function(e){
+				if (e.keyCode != '13') return;
+				e.preventDefault();
+            	
+				var cmd = $(this).val();
+				$(this).val('');
+				term = e.data[0];
+				term.cli(cmd);
+			}
+		);
+	};
 	
 	this.cli = function(input){
 		var params = input.split(' ');
@@ -8,7 +24,7 @@ function se_terminal() {
 		if ( ! this[cmd]) {
 			return this.error("'"+cmd+"' command not found");
 		}
-		console.log(cmd, params);
+		// console.log(cmd, params);
 		return this[cmd](params);
 	};
 	
@@ -29,6 +45,11 @@ function se_terminal() {
 		return this;
 	};
 	
+	this.alias = function(alias, cmd) {
+		// ???
+	};
+
+	// Demo method, testing only
 	se_terminal.prototype.talk = function(params) {
 		if ( ! params) {
 			return this.error('Missing parameters');
@@ -40,4 +61,6 @@ function se_terminal() {
 		}
 		return this.puts(str);
 	};
+	
+	this.init();
 }
