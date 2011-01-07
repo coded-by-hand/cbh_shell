@@ -18,7 +18,7 @@
   <!-- Chrome Frame is only invoked if meta element for compatibility mode is within the first 1K bytes code.google.com/p/chromium/issues/detail?id=23003 -->    
 
 
-  <title></title>
+  <title>cbh_shell.js</title>
   <meta name="description" content="" />
   <meta name="author" content="" />
 
@@ -46,19 +46,21 @@
 
   <div id="container">
     <header>
-		<h1>se_terminal.js</h1>
-		<h2>Studio Elsa: Javascript Terminal</h2>
+		<h1>cbh_shell.js</h1>
+		<h2>( coded by hand ): Javascript Shell</h2>
     </header>
     
     <div id="main" role="main">
-	
-		<ol  id="se_cli_history" data-role="history"></ol>
-		<input id="se_cli_input" type="text" data-role="term">
-		
+        <ul>
+            <li>Control-T to show the shell.</li>
+        </ul>
     </div>
     
     <footer>
-		<p>&copy;2010 <a href="http://studioelsa.se">Studio Elsa</a></p>
+        <a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+            <img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
+            ( coded by hand )
+        </a>
     </footer>
   </div> <!--! end of #container -->
 
@@ -73,7 +75,7 @@
   <!-- scripts concatenated and minified via ant build script-->
   <script src="js/plugins.js"></script>
   <script src="js/script.js"></script>
-  <script src="js/mylibs/cbh_terminal.js"></script>
+  <script src="js/mylibs/cbh_shell.js"></script>
   <script src="js/libs/jquery.console.js"></script>
   <script src="js/libs/jquery.hotkeys.js"></script>
   <!-- end concatenated and minified scripts-->
