@@ -66,6 +66,7 @@ function cbh_shell(config){
     };
     if (config) {
         for (attrname in defaults) {
+            // console.log('Setting:', attrname, config[attrname]);
             defaults[attrname] = config[attrname];
         };
     };

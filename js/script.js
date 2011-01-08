@@ -5,7 +5,7 @@ $(document).ready(function() {
 
     /* Create console */
     var cbh_term = $('<div class="console">');
-    $('body').append(cbh_term);
+    $('#main').append(cbh_term);
     var controller = cbh_term.console({
         promptLabel: 'cbh> ',
         // TODO:? $user_name@cbh>
@@ -18,7 +18,7 @@ $(document).ready(function() {
         animateScroll: false,
         promptHistory: true,
         charInsertTrigger: function(keycode, line) {
-            // do nto allow leading spaces
+            // do nto allow leading spaces ?
             
             // Let you type until you press a-z
             // Never allow zero.
@@ -32,7 +32,9 @@ $(document).ready(function() {
     };
     
     var cli = new cbh_shell();
-    // 
+    // var cli = new cbh_shell({
+    //     config_key: value
+    // });
 
     // show/hide with hotkey
     $(document)
