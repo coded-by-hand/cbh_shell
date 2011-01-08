@@ -172,8 +172,8 @@ input:invalid, textarea:invalid {
 /* These selection declarations have to be separate.
    No text-shadow: twitter.com/miketaylr/status/12228805301
    Also: hot pink. */
-::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
-::selection { background:#FF5E99; color:#fff; text-shadow: none; }
+::-moz-selection{ background: rgba(255,254,255,0.75); color: #000; text-shadow: none; }
+::selection { background: rgba(255,254,255,0.75); color:#000; text-shadow: none; }
 
 /*  j.mp/webkit-tap-highlight-color */
 a:link { -webkit-tap-highlight-color: #FF5E99; }
@@ -231,17 +231,39 @@ button {  width: auto; overflow: visible; }
     Author:
  */
 
+footer{
+    position: absolute;
+    bottom: 0;
+    padding: 0.5em;
+	right: 0;
+}
+header {
+	padding: .5em;
+	background-color: #76b2ed;
+}
 
+header h1{
+	font-size: 2em;
+}
 
+#main {
+	padding: 10%;
+}
 
+#main p {
+	width: 100%;
+	text-align: center;
+}
+#main p.cta {
+	font-size: 6em;
+}
 
-
-
-
-
-
-
-
+#fork_me_github img{
+	position: absolute;
+	top: 0;
+	right: 0;
+	border: 0;
+}
 
 
 

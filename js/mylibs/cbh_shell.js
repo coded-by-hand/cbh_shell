@@ -41,7 +41,7 @@ function cbh_shell_parser(shell){
         var cur_char;   
         while (that.shell.input_chars && that.shell.input_chars.length) {
             cur_char = that.shell.input_chars.shift();
-            if (cur_char == ' ') break;
+            // if (cur_char == ' ') break;
             that.opts['output'] += cur_char;
         };
         return that.opts['output'];
@@ -76,7 +76,7 @@ function cbh_shell(config){
 
     this.parser = new cbh_shell_parser(this);
     
-    this.run = function(line){        
+    this.commandHandler = function(line){        
         that.input_chars = line.split('');
         
         var prog = that.parser.get_program();
@@ -102,7 +102,7 @@ function cbh_shell(config){
             });
         } else {
             messages.push({
-                msg: 'Opts: ' + opts + ' (not parsed yet)',
+                msg: 'Option string passed: "' + opts + '" (not parsed yet)',
                 className: "jquery-console-message-value"
             });
         }
