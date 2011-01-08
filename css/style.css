@@ -239,18 +239,21 @@ button {  width: auto; overflow: visible; }
 footer{
     position: absolute;
     bottom: 0;
-    padding: 0.5em;
-	right: 0;
-}
-header {
-	padding: .5em .5em 1em;
 	color: #e5e5e5;
-	background: -webkit-gradient(linear, 100% 100%, 100% 0%, from(#E5E5E5), to(#65A9D7), color-stop(.1,#3E779D));
+	background: -webkit-gradient(linear, 100% 0%, 100% 100%, from(#E5E5E5), to(#3E779D), color-stop(.05,#65A9D7),color-stop(.85,#3E779D));
 	text-shadow: rgba(0,0,0,.4) 0 1px 0;
-
+	padding: 1em;
+	width:  100%;
 }
+/*header {
+	color: #e5e5e5;
+	background: -webkit-gradient(linear, 100% 0%, 100% 100%, from(#3E779D), to(#E5E5E5), color-stop(.05,#65A9D7),color-stop(.85,#3E779D));
+	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	text-align: right;
+	padding: 1em 1em 2em;
+}*/
 
-header h1{
+footer h1{
 	font-size: 2em;
 	color: #fff;
 }
@@ -303,14 +306,15 @@ border-top: 1px solid #96d1f8;
   overflow: hidden;
   /* top left corner */
   position: absolute;
-  right: -3em;
+  left: -3em;
   top: 2.5em;
   /* 45 deg ccw rotation */
-  -moz-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
   /* shadow */
   -moz-box-shadow: 0 0 1em #888;
   -webkit-box-shadow: 0 0 1em #888;
+	font-size: 1.2em;
 }
 .git_ribbon a {
   border: 1px solid #faa;

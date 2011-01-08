@@ -28,7 +28,8 @@ $(document).ready(function() {
             
             // Let you type until you press a-z, Never allow zero.
             // return ! line.match(/[a-z]+/) && keycode != '0'.charCodeAt(0);
-        }
+        },
+        welcomeMessage: 'This is the welcome message\nnow what?'
     });
     
     // function commandHandler(line){
@@ -44,10 +45,12 @@ $(document).ready(function() {
         .bind('click', function() {
             if (cbh_term.is(':visible')) {
                 cbh_term.toggle('blind');
+                $('#instructions').fadeToggle();
             };
         })
         .bind('keydown', 'ctrl+t', function() {
             cbh_term.toggle('blind');
+            $('#instructions').fadeToggle();
             if (cbh_term.is(':visible')) {
                 cbh_term.click();
             } else {
