@@ -1,9 +1,6 @@
-function cbh_shell_parser(shell){
-    var that = this;
-    this.shell = shell;
-    
-    // var input = input_str || '';
-    // var input_chars = input.split('');
+function cbh_shell_parser(line){
+    var that = this,
+        input_chars = line.split('');
 
     // set program
     this.program = '';
@@ -27,8 +24,8 @@ function cbh_shell_parser(shell){
     this.get_program = function () {
         if ( ! this.program) {
             var cur_char;   
-            while (that.shell.input_chars && that.shell.input_chars.length) {
-                cur_char = that.shell.input_chars.shift();
+            while (input_chars && input_chars.length) {
+                cur_char = input_chars.shift();
                 if (cur_char == ' ') break;
                 this.program += cur_char;
             };
@@ -39,49 +36,36 @@ function cbh_shell_parser(shell){
     this.get_options = function () {
         that.opts['output'] = '';
         var cur_char;   
-        while (that.shell.input_chars && that.shell.input_chars.length) {
-            cur_char = that.shell.input_chars.shift();
+        while (input_chars && input_chars.length) {
+            cur_char = input_chars.shift();
             // if (cur_char == ' ') break;
             that.opts['output'] += cur_char;
         };
         return that.opts['output'];
-    };
-    
-    this.clear = function (){
-        this.program = '';
-        this.opts = {};
-    };
+    };    
 }
 
 function cbh_shell(config){
     var that = this,
-        cmd_queue = [],
-        output = [],
-        // input_str = '',
-        input_chars = []
-        ;
+        cmd_queue = [];
 
-    var defaults = {
-        autoload_dir: '/js/shell_programs'
-    };
+    // TODO: see notes
+    // var defaults = {
+    //     autoload_dir: '/js/shell_programs'
+    // };
+
     if (config) {
         for (attrname in defaults) {
             // console.log('Setting:', attrname, config[attrname]);
             defaults[attrname] = config[attrname];
         };
     };
-
-    this.program = '';
-    this.input_chars = [];
-
-    this.parser = new cbh_shell_parser(this);
     
-    this.commandHandler = function(line){        
-        that.input_chars = line.split('');
+    this.commandHandler = function(line){
+        var parser = new cbh_shell_parser(line),
+            prog = parser.get_program(),
+            messages = [];
         
-        var prog = that.parser.get_program();
-        
-        var messages = [];
         if ( ! prog) {
             messages.push({
                 msg: 'Program not found',
@@ -94,7 +78,7 @@ function cbh_shell(config){
             });
         }
         
-        var opts = that.parser.get_options();
+        var opts = parser.get_options();
         if ( ! opts) {
             messages.push({
                 msg: 'No options passed.',
@@ -110,7 +94,7 @@ function cbh_shell(config){
             msg: 'done processing',
             className: "jquery-console-message-type"
         });
-        that.parser.clear();
+        // that.parser.clear();
         return messages;
     };
     
