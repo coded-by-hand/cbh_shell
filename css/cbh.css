@@ -1,0 +1,107 @@
+#main_footer {
+	color: #fff;
+    position: absolute;
+    bottom: 0;
+	background: -webkit-gradient(linear, 100% 0%, 100% 100%,
+	    from(#E5E5E5),
+	    to(#3E779D),
+	    color-stop(.05,#65A9D7),
+	    color-stop(.85,#3E779D));
+	text-shadow: rgba(0,0,0,.4) 0 1px 0;
+	padding: 0;
+    display: block;
+    width:  100%;
+    height: 5em;
+}
+#main_footer h1 {
+	font-size: 2em;
+	line-height: 0;
+    position: absolute;
+    left: 1em;
+    top: 1.3em;
+}
+#main_footer aside {
+    position: absolute;
+    right: 1em;
+    top:  1em;
+	text-align: right;
+}
+#main_footer aside a, a:hover, a:active, a:visited{
+	color: #fff;
+	text-decoration: none;
+}
+#main_footer aside p.branding{
+	font-size: .8em;
+}
+
+section.instruction {
+	padding: 10%;
+}
+section.instruction h1{
+	font-size: 3em;
+	text-align: center;
+}
+section.instruction p {
+    text-align: center;
+}
+section.instruction aside p {
+	font-style: italic;
+}
+
+
+
+.key_cmd {
+	font-weight: bold;
+	font-size: 5em;
+	text-align: center;
+	padding: .5em;
+}
+.key_cmd span.key {
+    border-top: 1px solid #96d1f8;
+    background: #65a9d7;
+    background: -webkit-gradient(linear, left top, left bottom, from(#3e779d), to(#65a9d7));
+    background: -moz-linear-gradient(top, #3e779d, #65a9d7);
+    padding: 17.5px 35px;
+    -webkit-border-radius: 17px;
+    -moz-border-radius: 17px;
+    border-radius: 17px;
+    -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+    box-shadow: rgba(0,0,0,1) 0 1px 0;
+    text-shadow: rgba(0,0,0,.4) 0 1px 0;
+    color: white;
+    font-family: Helvetica, Arial, Sans-Serif;
+    text-decoration: none;
+    vertical-align: middle;
+    margin: .25em;
+}
+
+
+
+.git_ribbon {
+  background-color: #a00;
+  overflow: hidden;
+  /* top left corner */
+  position: absolute;
+  left: -3em;
+  top: 2.5em;
+  /* 45 deg ccw rotation */
+  -moz-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+  /* shadow */
+  -moz-box-shadow: 0 0 1em #888;
+  -webkit-box-shadow: 0 0 1em #888;
+	font-size: 1.2em;
+}
+.git_ribbon a {
+  border: 1px solid #faa;
+  color: #fff;
+  display: block;
+  font: bold 81.25% 'Helvetiva Neue', Helvetica, Arial, sans-serif;
+  margin: 0.05em 0 0.075em 0;
+  padding: 0.5em 3.5em;
+  text-align: center;
+  text-decoration: none;
+  /* shadow */
+  text-shadow: 0 0 0.5em #444;
+}
