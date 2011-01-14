@@ -1,101 +1,103 @@
 function cbh_shell_parser(line){
     var that = this,
-        input_chars = line.split('');
+        input_chars = line.split(''),
+        cur_char;
 
-    // set program
-    this.program = '';
-    this.opts = {};
-    
-    // var cur_char;   
-    // while (input_chars && input_chars.length) {
-    //     cur_char = input_chars.shift();
-    //     if (cur_char == ' ') break;
-    //     this.program += cur_char;
-    // };
-    // 
-    // this.opts = [];
-    // var opt_key, opt_val;
-    // while (input_chars && input_chars.length) {
-    //     cur_char = input_chars.shift();
-    //     if (cur_char == ' ') break;
-    //     this.program += cur_char;
-    // };
-    
-    this.get_program = function () {
-        if ( ! this.program) {
-            var cur_char;   
-            while (input_chars && input_chars.length) {
-                cur_char = input_chars.shift();
-                if (cur_char == ' ') break;
-                this.program += cur_char;
+    this.cmd_queue = [];
+        
+    // set program (until first space)
+    while (input_chars && input_chars.length) {
+        queue_prog();
+    };
+
+    function queue_prog () {
+        var program = {
+            name: '',
+            opts: {}
             };
-        };
-        return this.program;
+        
+        program.name = get_program();
+        program.opts = get_opts();
+        
+        that.cmd_queue.push(program);
     };
     
-    this.get_options = function () {
-        that.opts['output'] = '';
-        var cur_char;   
+    function get_program () {
+        var program = '';
         while (input_chars && input_chars.length) {
             cur_char = input_chars.shift();
-            // if (cur_char == ' ') break;
-            that.opts['output'] += cur_char;
+            if (cur_char == ' ') break;
+            program += cur_char;
         };
-        return that.opts['output'];
-    };    
-}
+        return program;
+    };
+
+    function get_opts () {
+        var opts = '';
+        while (input_chars && input_chars.length) {
+            cur_char = input_chars.shift();
+            opts += cur_char;
+        };
+        return opts;
+    };
+};
 
 function cbh_shell(config){
     var that = this,
         cmd_queue = [];
 
     // TODO: see notes
-    // var defaults = {
-    //     autoload_dir: '/js/shell_programs'
-    // };
+    var defaults = {
+        autoload_dir: '/js/shell_programs'
+    };
 
-    if (config) {
+    if (config) { // TODO test for array and length
         for (attrname in defaults) {
-            // console.log('Setting:', attrname, config[attrname]);
             defaults[attrname] = config[attrname];
         };
     };
     
     this.commandHandler = function(line){
         var parser = new cbh_shell_parser(line),
-            prog = parser.get_program(),
             messages = [];
         
-        if ( ! prog) {
+        var cmd;
+        while (parser.cmd_queue && parser.cmd_queue.length) {
+            cmd =  parser.cmd_queue.shift();
+            
+            // output program name
+            if ( ! cmd.name) {
+                messages.push({
+                    msg: 'Program not found',
+                    className: "jquery-console-message-error"
+                });
+            } else {
+                messages.push({
+                    msg: 'Program: ' + cmd.name,
+                    className: "jquery-console-message-value"
+                });
+            }
+            
+            // output program name
+            if ( ! cmd.opts) {
+                messages.push({
+                    msg: 'No options passed.',
+                    className: "jquery-console-message-error"
+                });
+            } else {
+                messages.push({
+                    msg: 'Option string passed: "' + JSON.stringify(cmd.opts) + '" (not parsed yet)',
+                    className: "jquery-console-message-value"
+                });
+            }
+            
+            // mark end of process
             messages.push({
-                msg: 'Program not found',
-                className: "jquery-console-message-error"
-            });
-        } else {
-            messages.push({
-                msg: 'Program: ' + prog,
-                className: "jquery-console-message-value"
+                msg: 'done processing',
+                className: "jquery-console-message-type"
             });
         }
-        
-        var opts = parser.get_options();
-        if ( ! opts) {
-            messages.push({
-                msg: 'No options passed.',
-                className: "jquery-console-message-error"
-            });
-        } else {
-            messages.push({
-                msg: 'Option string passed: "' + opts + '" (not parsed yet)',
-                className: "jquery-console-message-value"
-            });
-        }
-        messages.push({
-            msg: 'done processing',
-            className: "jquery-console-message-type"
-        });
-        // that.parser.clear();
-        return messages;
+        return messages;        
     };
     
     // function execute () {
