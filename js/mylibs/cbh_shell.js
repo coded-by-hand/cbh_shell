@@ -4,36 +4,35 @@ function cbh_shell_parser(line){
         cur_char;
 
     this.cmd_queue = [];
-        
+    this.program;
+      
     // set program (until first space)
     while (input_chars && input_chars.length) {
         queue_prog();
     };
 
     function queue_prog () {
-        var program = {
+        // reset program holder
+        that.program = {
             name: '',
             opts: {}
-            };
+        };
+        set_program();
+        set_opts();
         
-        program.name = get_program();
-        program.opts = get_opts();
-        
-        that.cmd_queue.push(program);
+        that.cmd_queue.push(that.program);
     };
     
-    function get_program () {
+    function set_program () {
         // console.log('get_program: ', input_chars);
-        var program = '';
         while (input_chars && input_chars.length) {
             cur_char = input_chars.shift();
             if (cur_char == ' ') break;
-            program += cur_char;
+            that.program.name += cur_char;
         };
-        return program;
     };
 
-    function get_opts () {
+    function set_opts () {
         // console.log('get_program: ', input_chars);
         var opts = {};
         // loop while we have characters
@@ -49,12 +48,10 @@ function cbh_shell_parser(line){
             switch (cur_char) {
                 case '-':
                     if (input_chars[0] == '-') {
-                        // double dash
                         input_chars.shift();
-                        console.log('double dash');
+                        set_double_dash();
                     } else {
-                        // single dash
-                        console.log('single dash');
+                        set_single_dash();
                     };
                     break;
                 case '"':
@@ -62,20 +59,64 @@ function cbh_shell_parser(line){
                     console.log('quoted '+ cur_char);
                     // break;
                 default:
-                    str = cur_char;
-                    while (input_chars && input_chars.length) {
-                        if (input_chars[0] == ';') break;
-                        
-                        cur_char = input_chars.shift();
-                        if (cur_char == ' ') break;
-
-                        str += cur_char;
-                    };
-                    opts[str] = true;
+                    input_chars.unshift(cur_char);
+                    set_string();
             }
         };
         return opts;
     };
+    
+    function set_double_dash () {
+        console.log('get_double_dash');
+
+        var str = '';
+        while (input_chars && input_chars.length) {
+            if (input_chars[0] == ';') break;
+            
+            cur_char = input_chars.shift();
+            if (cur_char == ' ') {
+                // should check for quoted
+                // --foo 'bar'
+                break;
+            }
+            str += cur_char;
+         };
+         that.program.opts[str] = true;
+    };
+
+    function set_single_dash () {
+        console.log('set_single_dash');
+        
+        while (input_chars && input_chars.length) {
+            if (input_chars[0] == ';') break;
+            
+            cur_char = input_chars.shift();
+            if (cur_char == ' ') {
+                // should check for quoted
+                // -f 'bar'
+                break;
+            }
+            that.program.opts[cur_char] = true;            
+        };
+    };
+    
+    function set_string () {
+        var str = '';
+        while (input_chars && input_chars.length) {
+            if (input_chars[0] == ';') break;
+            
+            cur_char = input_chars.shift();
+            if (cur_char == ' ') {
+                // should check for quoted
+                // foo 'bar'
+                break;
+            }
+
+            str += cur_char;
+        };
+        that.program.opts[str] = true;
+    };
+    
 };
 
 function cbh_shell(config){
