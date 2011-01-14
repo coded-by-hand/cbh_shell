@@ -17,9 +17,9 @@ function cbh_shell_parser(line){
             name: '',
             opts: {}
         };
+        // set next program in queue
         set_program();
         set_opts();
-        
         that.cmd_queue.push(that.program);
     };
     
@@ -56,10 +56,13 @@ function cbh_shell_parser(line){
                     break;
                 case '"':
                 case "'":
-                    console.log('quoted '+ cur_char);
-                    // break;
+                    set_string(cur_char);
+                    break;
                 default:
                     input_chars.unshift(cur_char);
+                    // should check for quoted
+                    // foo bar 'hi'
+                    // foo({bar: 'hi'}) ?
                     set_string();
             }
         };
@@ -100,22 +103,32 @@ function cbh_shell_parser(line){
         };
     };
     
-    function set_string () {
+    function set_string (cur_char) {
+        console.log('set_string('+cur_char+')');
+        
+        var str = str_until(cur_char);
+        that.program.opts[str] = true;
+    };
+    
+    function str_until (end_str) {
+        var end = end_str || ' ';
+        
+        console.log('end:'+end);
+        
         var str = '';
         while (input_chars && input_chars.length) {
             if (input_chars[0] == ';') break;
             
             cur_char = input_chars.shift();
-            if (cur_char == ' ') {
-                // should check for quoted
-                // foo 'bar'
+            // TODO escape string \" \'
+            if (cur_char == end) {
+                console.log('found end', input_chars);
                 break;
             }
-
             str += cur_char;
         };
-        that.program.opts[str] = true;
-    };
+        return str;
+    }
     
 };
 
