@@ -23,6 +23,7 @@ function cbh_shell_parser(line){
     };
     
     function get_program () {
+        // console.log('get_program: ', input_chars);
         var program = '';
         while (input_chars && input_chars.length) {
             cur_char = input_chars.shift();
@@ -33,10 +34,45 @@ function cbh_shell_parser(line){
     };
 
     function get_opts () {
-        var opts = '';
+        // console.log('get_program: ', input_chars);
+        var opts = {};
+        // loop while we have characters
         while (input_chars && input_chars.length) {
             cur_char = input_chars.shift();
-            opts += cur_char;
+            if (cur_char == ';') {
+                break; // stop building opts
+            };
+            if (cur_char == ' ') {
+                continue; // keep looking...
+            };
+            // let's check for special characters
+            switch (cur_char) {
+                case '-':
+                    if (input_chars[0] == '-') {
+                        // double dash
+                        input_chars.shift();
+                        console.log('double dash');
+                    } else {
+                        // single dash
+                        console.log('single dash');
+                    };
+                    break;
+                case '"':
+                case "'":
+                    console.log('quoted '+ cur_char);
+                    // break;
+                default:
+                    str = cur_char;
+                    while (input_chars && input_chars.length) {
+                        if (input_chars[0] == ';') break;
+                        
+                        cur_char = input_chars.shift();
+                        if (cur_char == ' ') break;
+
+                        str += cur_char;
+                    };
+                    opts[str] = true;
+            }
         };
         return opts;
     };
@@ -85,15 +121,16 @@ function cbh_shell(config){
                     className: "jquery-console-message-error"
                 });
             } else {
+                console.log(cmd.opts);
                 messages.push({
-                    msg: 'Option string passed: "' + JSON.stringify(cmd.opts) + '" (not parsed yet)',
+                    msg: 'Options passed:\n"' + JSON.stringify(cmd.opts),
                     className: "jquery-console-message-value"
                 });
-            }
+            };
             
             // mark end of process
             messages.push({
-                msg: 'done processing',
+                msg: '(parsing is weak still)\ndone processing',
                 className: "jquery-console-message-type"
             });
         }
